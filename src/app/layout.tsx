@@ -3,6 +3,7 @@ import "./global.css";
 import { usePathname } from "next/navigation";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
+import Provider from "@/app/_provider";
 
 export default function RootLayout({
   children,
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body>
         <div className="flex flex-col min-h-screen overflow-hidden">
           {!hideLayout && <Navbar />}
-          <main>{children}</main>
+          <main>
+            <Provider>{children}</Provider>
+          </main>
           {!hideLayout && <Footer />}
         </div>
       </body>
