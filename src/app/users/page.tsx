@@ -1,10 +1,10 @@
 export const metadata = {
   title: "About",
 };
-export default function About() {
+export default function Users() {
   return (
     <>
-      <div className="font-bold">About page</div>
+      <div className="font-bold">Users page</div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi
         consequatur corporis dicta, eum eveniet explicabo facere labore
