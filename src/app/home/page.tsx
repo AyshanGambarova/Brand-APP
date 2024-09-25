@@ -1,32 +1,89 @@
-export default function Home() {
+"use client";
+
+import { useCallback, useRef } from "react";
+import usePhotos from "@/hooks/usePhotos";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Grid,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { Photo } from "@/types";
+
+export default function PhotosPage() {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastPhotoRef = useCallback(
+    (node: HTMLElement | null) => {
+      if (isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage],
+  );
+
+  const photos =
+    data?.pages.flatMap((page: any) => page.map((photo: Photo) => photo)) || [];
+
   return (
-    <>
-      <div className="font-bold">Home page</div>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque autem
-        facere nam numquam quod. Alias blanditiis consequatur incidunt maiores
-        mollitia nulla voluptatibus? Ab blanditiis corporis cum, dicta dolor
-        dolorum eaque, earum eius eos error eum ex excepturi facere fugit, ipsam
-        labore laboriosam libero minima minus molestias nam nesciunt nisi
-        officia officiis pariatur perspiciatis praesentium quaerat quas
-        quibusdam reiciendis saepe sapiente sit ullam unde ut veritatis
-        voluptatibus. Ad asperiores cum dolores dolorum eaque eius, error eum,
-        ipsum libero obcaecati officiis pariatur provident quibusdam, reiciendis
-        vitae. Eius eligendi eos illo iure iusto, labore modi nostrum odio
-        placeat, possimus quidem repellat sint tenetur totam velit! Ab atque
-        culpa dolorem, dolorum ducimus eligendi facilis iure maxime modi
-        necessitatibus, numquam officiis possimus quaerat quis, sapiente
-        voluptates voluptatum! Adipisci architecto et fuga iusto maxime
-        necessitatibus odio quo unde. Accusamus architecto autem corporis,
-        cupiditate deserunt dolorem ducimus exercitationem expedita facere fugit
-        inventore itaque labore magnam maiores, molestiae neque nulla, odit
-        quaerat quibusdam quos ratione repellat vero voluptatibus! A iusto
-        laudantium maxime non provident quos, temporibus velit? Alias amet
-        consectetur illum in incidunt maxime quia tenetur vero. Accusamus
-        dolorem ex nemo odio possimus quae, reprehenderit! A aliquam
-        consequuntur, cum cupiditate eum ex officiis possimus quas sit, totam
-        ullam.
-      </div>
-    </>
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Photos</h1>
+      <Grid container spacing={2}>
+        {photos.map((photo: Photo, index: number) => {
+          const isLastPhoto = index === photos.length - 1;
+          return (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={2}
+              key={photo.id}
+              ref={isLastPhoto ? lastPhotoRef : null}
+            >
+              <Card sx={{ height: "100%" }}>
+                <CardMedia
+                  component="img"
+                  alt={photo.title}
+                  height="140"
+                  image={photo.thumbnailUrl}
+                />
+                <CardContent>
+                  <Tooltip
+                    title={photo.title}
+                    disableHoverListener={false} // Always show tooltip
+                  >
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      noWrap
+                      sx={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {photo.title}
+                    </Typography>
+                  </Tooltip>
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
+      {isFetchingNextPage && <CircularProgress />}
+    </div>
   );
 }

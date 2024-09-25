@@ -1,20 +1,13 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://dummyjson.com",
-  timeout: 1000,
-  headers: { "Content-Type": "application/json" },
+  baseURL: "https://jsonplaceholder.typicode.com",
 });
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
     // Do something before the request is sent
-    // For example, add an authentication token to the headers
-    const token = localStorage.getItem("authToken"); // Retrieve auth token from localStorage
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   function (error) {
@@ -27,16 +20,10 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function (response) {
     // Do something with the response data
-    console.log("Response:", response);
     return response;
   },
   function (error) {
     // Handle the response error
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized error
-      console.error("Unauthorized, logging out...");
-      // Perform any logout actions or redirect to login page
-    }
     return Promise.reject(error);
   },
 );

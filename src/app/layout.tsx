@@ -3,7 +3,7 @@ import "./global.css";
 import { usePathname } from "next/navigation";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
-import Provider from "@/app/_provider";
+import Provider from "@/util/Providers";
 
 export default function RootLayout({
   children,
@@ -11,21 +11,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathName = usePathname();
-  const hideLayout =
-    pathName === "/login" ||
-    pathName === "/register" ||
-    pathName === "/reset-password";
+  if (pathName === "/login" || pathName === "/register") {
+    return (
+      <html>
+        <body>{children}</body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
       <body>
-        <div className="flex flex-col min-h-screen overflow-hidden">
-          {!hideLayout && <Navbar />}
-          <main>
-            <Provider>{children}</Provider>
-          </main>
-          {!hideLayout && <Footer />}
-        </div>
+        <Provider>
+          <div className="flex flex-col min-h-screen overflow-hidden">
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </div>
+        </Provider>
       </body>
     </html>
   );
