@@ -1,9 +1,10 @@
 "use client";
 import "./global.css";
 import { usePathname } from "next/navigation";
-import Navbar from "@/app/components/navbar";
-import Footer from "@/app/components/footer";
-import Provider from "@/util/Providers";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import TanstackProvider from "@/util/tanstack-provider";
+import MapProvider from "@/util/map-provider";
 
 export default function RootLayout({
   children,
@@ -22,13 +23,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider>
-          <div className="flex flex-col min-h-screen overflow-hidden">
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </div>
-        </Provider>
+        <TanstackProvider>
+          <MapProvider>
+            <div className="flex flex-col min-h-screen overflow-hidden">
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </div>
+          </MapProvider>
+        </TanstackProvider>
       </body>
     </html>
   );

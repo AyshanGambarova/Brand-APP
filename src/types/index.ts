@@ -35,3 +35,11 @@ export type User = {
   website: string;
   company: Company;
 };
+
+export type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  nationality: string;
+};

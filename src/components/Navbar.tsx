@@ -12,8 +12,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/home" },
     { name: "Users", href: "/users" },
-    { name: "Blogs", href: "/blogs" },
-    { name: "Profile", href: "/profile" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const toggleMenu = () => {
