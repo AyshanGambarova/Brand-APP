@@ -60,10 +60,7 @@ export default function PhotosPage() {
                   image={photo.thumbnailUrl}
                 />
                 <CardContent>
-                  <Tooltip
-                    title={photo.title}
-                    disableHoverListener={false} // Always show tooltip
-                  >
+                  <Tooltip title={photo.title} disableHoverListener={false}>
                     <Typography
                       variant="body2"
                       color="text.secondary"

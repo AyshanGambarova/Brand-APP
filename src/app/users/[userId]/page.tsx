@@ -1,6 +1,7 @@
-import { Metadata } from "next";
+"use client";
+
 import { CircularProgress, Typography } from "@mui/material";
-import useUserDetails from "@/hooks/useUserDetails"; // Import the custom hook
+import useUserDetails from "@/hooks/useUserDetails";
 
 type Props = {
   params: {
@@ -8,18 +9,12 @@ type Props = {
   };
 };
 
-export const generateMetadata = ({ params }: Props): Metadata => {
-  return {
-    title: `User ${params.userId}`,
-  };
-};
-
 export default function UserDetails({ params }: Props) {
-  const { userId } = params; // Get userId from params
-  const { data: user, isLoading, error } = useUserDetails(userId); // Use the custom hook
+  const { userId } = params;
+  const { data: user, isLoading, error } = useUserDetails(userId);
 
-  if (isLoading) return <CircularProgress />; // Show loading spinner
-  if (error) return <p>Error: {error.message}</p>; // Show error message
+  if (isLoading) return <CircularProgress />;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>

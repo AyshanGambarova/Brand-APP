@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import useUsers from "@/hooks/useUsers";
-import Link from "next/link"; // Your custom hook
+import Link from "next/link";
 
 const UsersPage = () => {
   const { data: users, isLoading, error } = useUsers();
