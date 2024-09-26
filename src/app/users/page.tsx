@@ -72,27 +72,30 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="slider-container pt-5 pb-5">
-      <Slider {...settings}>
-        {users?.map((user) => (
-          <Card sx={{ height: "100%", position: "relative" }} key={user.id}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                {user?.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {user?.email}
-              </Typography>
-            </CardContent>
-            <div className="flex justify-end items-center mb-3 mr-3">
-              <Button variant="contained" color="primary">
-                <Link href={`/users/${user?.id}`}> More</Link>
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </Slider>
-    </div>
+    <>
+      <h1 className="text-2xl font-bold mb-4">Users</h1>
+      <div className="slider-container pt-5 pb-5">
+        <Slider {...settings}>
+          {users?.map((user) => (
+            <Card sx={{ height: "100%", position: "relative" }} key={user.id}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  {user?.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {user?.email}
+                </Typography>
+              </CardContent>
+              <div className="flex justify-end items-center mb-3 mr-3">
+                <Button variant="outlined" color="primary">
+                  <Link href={`/users/${user?.id}`}> More</Link>
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </Slider>
+      </div>
+    </>
   );
 };
 

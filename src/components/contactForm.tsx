@@ -202,7 +202,7 @@ export default function ContactForm() {
       <div className="flex justify-end items-center mb-3 mr-3">
         <Button
           type="submit"
-          variant="contained"
+          variant="outlined"
           color="primary"
           className="mt-4"
           size="small"
