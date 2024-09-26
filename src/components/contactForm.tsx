@@ -59,10 +59,6 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Typography variant="h5" gutterBottom>
-        Contact Us
-      </Typography>
-
       <Grid container spacing={2}>
         {/* First Name */}
         <Grid item xs={12} sm={6}>
@@ -127,7 +123,7 @@ export default function ContactForm() {
                     <em>None</em>
                   </MenuItem>
                   {nationalities.map((nationality) => (
-                    <MenuItem key={nationality.value} value={nationality.value}>
+                    <MenuItem key={nationality.label} value={nationality.value}>
                       {nationality.label}
                     </MenuItem>
                   ))}
@@ -203,16 +199,18 @@ export default function ContactForm() {
           />
         </Grid>
       </Grid>
+      <div className="flex justify-end items-center mb-3 mr-3">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className="mt-4"
+          size="small"
+        >
+          Submit
+        </Button>
+      </div>
 
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className="mt-4"
-        size="small"
-      >
-        Submit
-      </Button>
       {/* Snackbar for notification */}
       <Snackbar
         open={openSnackbar}
