@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Business, Email, Language, Phone } from "@mui/icons-material";
+import { Business, Email, Language, Person, Phone } from "@mui/icons-material";
 import useUserDetails from "@/hooks/useUserDetails";
 import { deepPurple } from "@mui/material/colors"; // Optional for avatar background color
 
@@ -62,12 +62,10 @@ export default function UserDetails({ params }: Props) {
                 <Typography variant="h5" className="font-bold mb-3 text-center">
                   {user?.name}
                 </Typography>
-                <Typography
-                  variant="body1"
-                  className="text-gray-700 mb-2 text-center"
-                >
-                  Username: {user?.username}
-                </Typography>
+                <div className="flex items-center justify-center mb-2">
+                  <Person className="mr-2 text-red-500" />
+                  <Typography variant="body1">{user.username}</Typography>
+                </div>
 
                 {/* Contact Information */}
                 <div className="flex items-center justify-center mb-2">
