@@ -36,10 +36,15 @@ export type User = {
   company: Company;
 };
 
-export type FormData = {
+export type ContactFormData = {
   firstName: string;
   lastName: string;
   email: string;
   gender: string;
   nationality: string;
+};
+
+export type LoginFormData = {
+  username: string;
+  password: string;
 };

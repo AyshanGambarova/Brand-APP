@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Photo } from "@/types";
 
-export default function PhotosPage() {
+export default function HomePage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
   const observer = useRef<IntersectionObserver | null>(null);
 

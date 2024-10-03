@@ -11,23 +11,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathName = usePathname();
-  if (pathName === "/login" || pathName === "/register") {
-    return (
-      <html>
-        <body>{children}</body>
-      </html>
-    );
-  }
-
   return (
     <html lang="en">
       <body>
         <TanstackProvider>
-          <div className="flex flex-col min-h-screen overflow-hidden">
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </div>
+          {pathName === "/login" || pathName === "/register" ? (
+            // No Navbar and Footer on login or register pages
+            <>{children}</>
+          ) : (
+            <div className="flex flex-col min-h-screen overflow-hidden">
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </div>
+          )}
         </TanstackProvider>
       </body>
     </html>

@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/app/api/axiosInstance";
-import { FormData } from "@/types"; // Import the types
+import { ContactFormData } from "@/types";
 
-const submitForm = async (formData: FormData): Promise<any> => {
+const submitForm = async (formData: ContactFormData): Promise<any> => {
   const response = await axiosInstance.post<any>("/users", formData);
   return response.data;
 };

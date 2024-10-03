@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { FormData } from "@/types";
+import { ContactFormData } from "@/types";
 import useSubmitContactForm from "@/hooks/useSubmitContactForm";
 
 const nationalities = [
@@ -35,13 +35,13 @@ export default function ContactForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<ContactFormData>();
 
   const mutation = useSubmitContactForm(); // Use the custom hook
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ContactFormData) => {
     mutation.mutate(data, {
       onSuccess: () => {
         reset(); // Clear the form
