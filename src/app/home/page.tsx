@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useRef } from "react";
 import usePhotos from "@/hooks/usePhotos";
+import { Photo } from "@/types";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Photo } from "@/types";
+import { useCallback, useRef } from "react";
 
 export default function HomePage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
@@ -30,14 +30,14 @@ export default function HomePage() {
 
       if (node) observer.current.observe(node);
     },
-    [isFetchingNextPage, fetchNextPage, hasNextPage],
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
   );
 
   const photos =
     data?.pages.flatMap((page: any) => page.map((photo: Photo) => photo)) || [];
 
   return (
-    <div>
+    <>
       <h1 className="text-2xl font-bold mb-4">Photos</h1>
       <Grid container spacing={2}>
         {photos.map((photo: Photo, index: number) => {
@@ -81,6 +81,6 @@ export default function HomePage() {
         })}
       </Grid>
       {isFetchingNextPage && <CircularProgress />}
-    </div>
+    </>
   );
 }

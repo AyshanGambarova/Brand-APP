@@ -1,4 +1,5 @@
 "use client";
+import useUsers from "@/hooks/useUsers";
 import {
   Button,
   Card,
@@ -6,9 +7,8 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import Slider from "react-slick";
-import useUsers from "@/hooks/useUsers";
 import Link from "next/link";
+import Slider from "react-slick";
 import "./style.css";
 
 const UsersPage = () => {

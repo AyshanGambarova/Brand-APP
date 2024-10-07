@@ -1,6 +1,5 @@
-import React from "react";
-import MapComponent from "@/components/map";
 import ContactForm from "@/components/contactForm";
+import MapComponent from "@/components/map";
 import { Grid } from "@mui/material";
 
 export default function Contact() {

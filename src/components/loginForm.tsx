@@ -1,11 +1,10 @@
 "use client";
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, Grid, Snackbar, TextField } from "@mui/material";
-
-import { LoginFormData } from "@/types";
 import useSubmitLoginForm from "@/hooks/useSubmitLoginForm";
-import { redirect } from "next/navigation";
+import { LoginFormData } from "@/types";
+import { Alert, Button, Grid, Snackbar, TextField } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const LoginForm = () => {
   const {
@@ -17,13 +16,13 @@ const LoginForm = () => {
 
   const mutation = useSubmitLoginForm(); // Use the custom hook
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const router = useRouter(); // Use router for navigation
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = (data: any) => {
     mutation.mutate(data, {
       onSuccess: () => {
-        reset(); // Clear the form
-        setOpenSnackbar(true); // Show notification
-        redirect("/login");
+        reset();
+        setOpenSnackbar(true);
       },
       onError: (error) => {
         console.error("Error submitting data:", error);

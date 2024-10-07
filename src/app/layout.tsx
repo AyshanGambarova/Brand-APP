@@ -1,9 +1,9 @@
 "use client";
-import "./global.css";
-import { usePathname } from "next/navigation";
-import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 import TanstackProvider from "@/util/tanstack-provider";
+import { usePathname } from "next/navigation";
+import "./global.css";
 
 export default function RootLayout({
   children,

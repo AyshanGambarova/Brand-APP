@@ -1,3 +1,4 @@
+// app/api/loginInstance.ts
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -6,24 +7,24 @@ const axiosInstance = axios.create({
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
-  function (config) {
-    // Do something before the request is sent
+  (config) => {
+    const token = localStorage.getItem("token"); // Get token from localStorage
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`; // Set token in headers
+    }
     return config;
   },
-  function (error) {
-    // Handle the error
+  (error) => {
     return Promise.reject(error);
   },
 );
 
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
-  function (response) {
-    // Do something with the response data
+  (response) => {
     return response;
   },
-  function (error) {
-    // Handle the response error
+  (error) => {
     return Promise.reject(error);
   },
 );
