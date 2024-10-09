@@ -1,5 +1,6 @@
 "use client";
 
+import { useUserContext } from "@/context/userContext";
 import usePhotos from "@/hooks/usePhotos";
 import { Photo } from "@/types";
 import {
@@ -14,6 +15,7 @@ import {
 import { useCallback, useRef } from "react";
 
 export default function HomePage() {
+  const { user } = useUserContext();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -39,6 +41,7 @@ export default function HomePage() {
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Photos</h1>
+      <div>Welcome, {user?.firstName}!</div>
       <Grid container spacing={2}>
         {photos.map((photo: Photo, index: number) => {
           const isLastPhoto = index === photos.length - 1;

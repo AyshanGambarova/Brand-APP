@@ -9,9 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "blue-1": "rgba(99,165,255,255)",
-        "blue-2": "rgba(175, 211, 255, 1)",
-        "blue-3": "rgba(192, 223, 253, 1)",
+        "blue-1": "rgba(89, 150, 230, 1)",
+        "blue-2": "rgba(99,165,255,255)",
+        "blue-3": "rgba(175, 211, 255, 1)",
+        "blue-4": "rgba(192, 223, 253, 1)",
       },
     },
   },

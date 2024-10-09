@@ -1,4 +1,5 @@
 import loginInstance from "@/app/api/loginInstance";
+import { useUserContext } from "@/context/userContext"; // Import UserContext
 import { LoginFormData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie"; // Use js-cookie to manage cookies
@@ -11,14 +12,13 @@ const submitForm = async (formData: LoginFormData): Promise<any> => {
 
 const useSubmitLoginForm = () => {
   const router = useRouter();
+  const { setUser } = useUserContext(); // Get setUser from context
 
   return useMutation({
     mutationFn: submitForm,
     onSuccess: (data) => {
-      // Store the accessToken in cookies
-      Cookies.set("accessToken", data.accessToken, { expires: 1 }); // Set expiration as needed
-
-      // Redirect to the home page after successful login
+      Cookies.set("accessToken", data.accessToken, { expires: 1 });
+      setUser(data); // Save user details in context
       router.push("/home");
     },
     onError: (error) => {

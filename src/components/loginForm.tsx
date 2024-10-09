@@ -36,7 +36,6 @@ const LoginForm = () => {
         });
       },
       onError: (error) => {
-        console.error("Error submitting data:", error);
         setSnackbar({
           open: true,
           message: "Login failed! Please try again.",
