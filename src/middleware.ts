@@ -15,13 +15,13 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // // Check for dynamic user routes
-  // if (request.nextUrl.pathname.startsWith("/users/")) {
-  //   // If the token is missing, redirect to the login page
-  //   if (!token) {
-  //     return NextResponse.redirect(new URL("/login", request.url));
-  //   }
-  // }
+  // Check for dynamic user routes
+  if (request.nextUrl.pathname.startsWith("/users/")) {
+    // If the token is missing, redirect to the login page
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
 
   // Continue with the request
   return NextResponse.next();

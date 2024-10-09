@@ -12,14 +12,12 @@ export default function Login() {
           <Grid container spacing={2} alignItems="center">
             {/* Form Section */}
             <Grid item xs={12} sm={6} md={6}>
-              <div className="w-96 h-72 relative">
-                <Image
-                  layout="responsive"
-                  className="rounded-2xl"
-                  src={loginImage}
-                  alt="Login Visual"
-                />
-              </div>
+              <Image
+                layout="responsive"
+                className="rounded-2xl"
+                src={loginImage}
+                alt="Login Visual"
+              />
             </Grid>
             {/* Image Section */}
             <Grid item xs={12} sm={6} md={6}>
