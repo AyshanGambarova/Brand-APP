@@ -1,6 +1,8 @@
 // src/app/login/page.tsx
-import { Grid } from "@mui/material";
+import loginImage from "@/assets/login-img.jpg";
 import LoginForm from "@/components/loginForm";
+import { Grid } from "@mui/material";
+import Image from "next/image";
 
 export default function Login() {
   return (
@@ -10,16 +12,19 @@ export default function Login() {
           <Grid container spacing={2} alignItems="center">
             {/* Form Section */}
             <Grid item xs={12} md={6}>
-              <LoginForm />
+              <Image
+                width={500} // The intrinsic width of the image
+                height={300} // The intrinsic height of the image
+                layout="responsive"
+                className="rounded-2xl"
+                src={loginImage}
+                alt="Login Visual"
+              />
             </Grid>
 
             {/* Image Section */}
             <Grid item xs={12} md={6} className="hidden md:block">
-              <img
-                className="rounded-2xl"
-                src="https://images.unsplash.com/photo-1616606103915-dea7be788566?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
-                alt="Login Visual"
-              />
+              <LoginForm />
             </Grid>
           </Grid>
         </div>

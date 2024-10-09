@@ -1,7 +1,7 @@
 "use client";
 //Map component Component from library
+import MapProvider from "@/utils/map-provider"; //Map's styling
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import MapProvider from "@/util/map-provider"; //Map's styling
 //Map's styling
 export const defaultMapContainerStyle = {
   width: "100%",
