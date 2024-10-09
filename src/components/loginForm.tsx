@@ -36,7 +36,7 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ padding: 3 }}>
         {/* Username Field */}
         <Grid item xs={12}>
           <Controller

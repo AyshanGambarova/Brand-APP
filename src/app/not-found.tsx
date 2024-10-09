@@ -1,12 +1,16 @@
-export const metadata = {
-  layout: false, // Disable the layout for this page
-};
-
+import notFoundImage from "@/assets/not-found.svg";
+import Image from "next/image";
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">404 - Page Not Found</h1>
-      <p>The page you are looking for does not exist.</p>
+      <div className="w-96 h-72 relative">
+        <Image
+          layout="responsive"
+          className="rounded-2xl"
+          src={notFoundImage}
+          alt="Not Found Visual"
+        />
+      </div>
     </div>
   );
 }

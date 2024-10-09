@@ -52,7 +52,7 @@ export default function Navbar() {
               <li key={link.name}>
                 <Link
                   className={`${
-                    isActive && "font-bold"
+                    isActive ? "font-bold" : ""
                   } block md:inline-block mx-4 py-2`}
                   href={link.href}
                 >
@@ -65,10 +65,10 @@ export default function Navbar() {
 
         {/* Logout Button */}
         <button
+          className="ml-4 hidden md:block bg-blue-1 text-white px-4 py-2 rounded hover:bg-blue-2 transition"
           onClick={handleLogout}
-          className="ml-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition"
         >
-          Logout
+          Log Out
         </button>
       </div>
 
@@ -81,7 +81,7 @@ export default function Navbar() {
             <li key={link.name}>
               <Link
                 className={`${
-                  pathName.startsWith(link.href) && "font-bold"
+                  pathName.startsWith(link.href) ? "font-bold" : ""
                 } block py-2`}
                 href={link.href}
                 onClick={() => setIsOpen(false)} // Close dropdown on link click
@@ -94,10 +94,10 @@ export default function Navbar() {
           {/* Logout Button in Mobile Menu */}
           <li>
             <button
+              className="mt-4 bg-blue-1 text-white px-4 py-2 rounded hover:bg-blue-2 transition"
               onClick={handleLogout}
-              className="w-full text-left mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition"
             >
-              Logout
+              Log Out
             </button>
           </li>
         </ul>
