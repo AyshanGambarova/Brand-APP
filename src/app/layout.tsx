@@ -1,5 +1,4 @@
 "use client";
-import { UserProvider } from "@/context/userContext";
 import "@/styles/global.css";
 import TanstackProvider from "@/utils/tanstack-provider";
 
@@ -11,9 +10,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <TanstackProvider>
-          <UserProvider>{children}</UserProvider>
-        </TanstackProvider>
+        <TanstackProvider>{children}</TanstackProvider>
       </body>
     </html>
   );

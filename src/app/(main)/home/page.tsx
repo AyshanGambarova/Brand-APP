@@ -1,7 +1,7 @@
 "use client";
 
-import { useUserContext } from "@/context/userContext";
 import usePhotos from "@/hooks/usePhotos";
+import { useUserStore } from "@/store/userStore";
 import { Photo } from "@/types";
 import {
   Card,
@@ -15,7 +15,7 @@ import {
 import { useCallback, useRef } from "react";
 
 export default function HomePage() {
-  const { user } = useUserContext();
+  const user = useUserStore((state) => state.user);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
   const observer = useRef<IntersectionObserver | null>(null);
 

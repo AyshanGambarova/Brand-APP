@@ -1,5 +1,5 @@
 "use client";
-import { useUserContext } from "@/context/userContext"; // Adjust the path as needed
+import { useUserStore } from "@/store/userStore";
 import { Logout } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,7 +24,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const { user } = useUserContext(); // Access user from context
+  const user = useUserStore((state) => state.user);
 
   const navLinks = [
     { name: "Home", href: "/home" },
@@ -46,6 +46,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     Cookies.remove("accessToken");
+    Cookies.remove("user");
+    useUserStore.getState().clearUser();
     router.push("/login");
   };
 
@@ -96,11 +98,11 @@ export default function Navbar() {
             >
               <Avatar
                 sx={{ width: 32, height: 32 }}
-                src={user?.image} // Use user image from context
+                src={user?.image} // Use user image from Zustand store
                 alt={`${user?.firstName} ${user?.lastName}`}
                 className="bg-blue-4 text-white"
               >
-                {!user?.image && "M"} {/* Fallback if no image */}
+                {!user?.image}
               </Avatar>
             </IconButton>
           </Tooltip>

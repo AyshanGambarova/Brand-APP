@@ -1,8 +1,8 @@
 import loginInstance from "@/app/api/loginInstance";
-import { useUserContext } from "@/context/userContext"; // Import UserContext
+import { useUserStore } from "@/store/userStore";
 import { LoginFormData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie"; // Use js-cookie to manage cookies
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const submitForm = async (formData: LoginFormData): Promise<any> => {
@@ -12,14 +12,17 @@ const submitForm = async (formData: LoginFormData): Promise<any> => {
 
 const useSubmitLoginForm = () => {
   const router = useRouter();
-  const { setUser } = useUserContext(); // Get setUser from context
+  const setUser = useUserStore((state) => state.setUser);
 
   return useMutation({
     mutationFn: submitForm,
     onSuccess: (data) => {
-      Cookies.set("accessToken", data.accessToken, { expires: 1 });
-      setUser(data); // Save user details in context
-      router.push("/home");
+      Cookies.set("accessToken", data.accessToken, { expires: 1 }); // Expires in 1 day
+      Cookies.set("user", JSON.stringify(data), { expires: 1 });
+      setUser(data);
+      setTimeout(() => {
+        router.push("/home");
+      }, 1000);
     },
     onError: (error) => {
       console.error("Error submitting data:", error);
