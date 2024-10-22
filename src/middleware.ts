@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 const protectedRoutes = ["/", "/home", "/users/:path*", "/contact"];
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("accessToken");
+  const token = request.cookies.get("token");
+
+  // Create the response object
+  const res = NextResponse.next();
 
   // Check if the current path is protected
   if (protectedRoutes.includes(request.nextUrl.pathname)) {
@@ -15,7 +18,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Check for dynamic user routes
+  // Check for dynamic user routes (e.g., /users/123)
   if (request.nextUrl.pathname.startsWith("/users/")) {
     // If the token is missing, redirect to the login page
     if (!token) {
@@ -23,11 +26,11 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Continue with the request
-  return NextResponse.next();
+  // Return the modified response object (with headers)
+  return res;
 }
 
 // Specify which routes this middleware should apply to
 export const config = {
-  matcher: protectedRoutes, // Apply middleware to these routes, including dynamic user routes
+  matcher: ["/", "/home", "/users/:path*", "/contact"], // Apply middleware to these routes, including dynamic user routes
 };

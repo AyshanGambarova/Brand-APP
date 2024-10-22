@@ -1,5 +1,4 @@
 import { CurrentUser } from "@/types";
-import Cookies from "js-cookie";
 import { create } from "zustand";
 
 type UserStore = {
@@ -15,8 +14,7 @@ export const useUserStore = create<UserStore>((set) => ({
   clearUser: () => set({ user: null }),
 }));
 
-// Rehydrate Zustand store with user data from cookies on app load
-const storedUser = Cookies.get("user");
-if (storedUser) {
-  useUserStore.setState({ user: JSON.parse(storedUser) });
-}
+// const storedUser = localStorage.getItem("user");
+// if (storedUser) {
+//   useUserStore.setState({ user: JSON.parse(storedUser) });
+// }

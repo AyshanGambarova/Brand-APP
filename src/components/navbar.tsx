@@ -45,9 +45,8 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    Cookies.remove("accessToken");
-    Cookies.remove("user");
-    useUserStore.getState().clearUser();
+    Cookies.remove("token");
+    // useUserStore.getState().clearUser();
     router.push("/login");
   };
 

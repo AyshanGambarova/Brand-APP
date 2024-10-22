@@ -1,13 +1,10 @@
 "use client";
-import SnackbarComponent from "@/components/snackbar"; // Import the Snackbar component
+import SnackbarComponent from "@/components/snackbar";
 import useSubmitLoginForm from "@/hooks/useSubmitLoginForm";
-import { LoginFormData } from "@/types";
+import { LoginFormData, SnackbarSeverity } from "@/types";
 import { Button, Grid, TextField } from "@mui/material";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-
-type SnackbarSeverity = "success" | "error";
 
 const LoginForm = () => {
   const {
@@ -17,32 +14,17 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const mutation = useSubmitLoginForm(); // Use the custom hook
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
     severity: SnackbarSeverity; // Use the custom type
   }>({ open: false, message: "", severity: "success" });
-  const router = useRouter(); // Use router for navigation
 
-  const onSubmit = (data: any) => {
-    mutation.mutate(data, {
-      onSuccess: () => {
-        reset();
-        setSnackbar({
-          open: true,
-          message: "Login successful!",
-          severity: "success",
-        });
-      },
-      onError: (error) => {
-        setSnackbar({
-          open: true,
-          message: "Login failed! Please try again.",
-          severity: "error",
-        });
-      },
-    });
+  // Pass setSnackbar to the hook
+  const mutation = useSubmitLoginForm(setSnackbar);
+
+  const onSubmit = (data: LoginFormData) => {
+    mutation.mutate(data); // Trigger the mutation
   };
 
   const handleCloseSnackbar = () => {
@@ -56,19 +38,25 @@ const LoginForm = () => {
           {/* Username Field */}
           <Grid item xs={12}>
             <Controller
-              name="username"
+              name="email"
               control={control}
               defaultValue=""
-              rules={{ required: "Username is required" }}
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Enter a valid email address",
+                },
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Username"
+                  label="Email"
                   variant="outlined"
                   fullWidth
                   size="small"
-                  error={!!errors.username}
-                  helperText={errors.username?.message}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                   margin="normal"
                 />
               )}

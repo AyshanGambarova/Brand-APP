@@ -1,31 +1,45 @@
-import loginInstance from "@/app/api/loginInstance";
-import { useUserStore } from "@/store/userStore";
+import instance from "@/app/api/dummyInstance";
 import { LoginFormData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios"; // Import AxiosError
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const submitForm = async (formData: LoginFormData): Promise<any> => {
-  const response = await loginInstance.post<any>("/login", formData);
+  const response = await instance.post<any>("/login", formData);
   return response.data;
 };
 
-const useSubmitLoginForm = () => {
+const useSubmitLoginForm = (
+  setSnackbar: (snackbar: {
+    open: boolean;
+    message: string;
+    severity: "success" | "error";
+  }) => void
+) => {
   const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
+  // const setUser = useUserStore((state) => state.setUser);
 
   return useMutation({
     mutationFn: submitForm,
     onSuccess: (data) => {
-      Cookies.set("accessToken", data.accessToken, { expires: 1 }); // Expires in 1 day
-      Cookies.set("user", JSON.stringify(data), { expires: 1 });
-      setUser(data);
-      setTimeout(() => {
-        router.push("/home");
-      }, 1000);
+      if (data.token) {
+        // Store the token in cookies
+        Cookies.set("token", data.token, { expires: 1 }); // Set expiration as needed
+        // Redirect to the home page after successful login
+        router.replace("/home");
+        setSnackbar({
+          open: true,
+          message: "Login successful!",
+          severity: "success",
+        });
+      }
     },
-    onError: (error) => {
-      console.error("Error submitting data:", error);
+    onError: (error: AxiosError) => {
+      const errorMessage =
+        error.response?.data?.error || "Login failed! Please try again.";
+      setSnackbar({ open: true, message: errorMessage, severity: "error" });
+      localStorage.removeItem("token");
     },
   });
 };

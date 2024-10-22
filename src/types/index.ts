@@ -45,7 +45,7 @@ export type ContactFormData = {
 };
 
 export type LoginFormData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -59,4 +59,10 @@ export type CurrentUser = {
   image: string;
   accessToken: string;
   refreshToken: string;
+};
+
+export type SnackbarSeverity = "success" | "error";
+export type Error = {
+  email: string;
+  password: string;
 };
