@@ -13,8 +13,3 @@ export const useUserStore = create<UserStore>((set) => ({
   setUser: (user) => set({ user }),
   clearUser: () => set({ user: null }),
 }));
-
-// const storedUser = localStorage.getItem("user");
-// if (storedUser) {
-//   useUserStore.setState({ user: JSON.parse(storedUser) });
-// }

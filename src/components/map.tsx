@@ -1,40 +1,47 @@
 "use client";
-//Map component Component from library
-import MapProvider from "@/utils/map-provider"; //Map's styling
-import { GoogleMap, Marker } from "@react-google-maps/api";
-//Map's styling
-export const defaultMapContainerStyle = {
-  width: "100%",
-  height: "100%",
-};
+
+import { Loader } from "@googlemaps/js-api-loader";
+import React, { useEffect } from "react";
+
 export default function Map() {
-  const defaultMapCenter = {
-    lat: 40.3700819,
-    lng: 49.8341662,
-  };
-  const defaultMapZoom = 18;
-  const defaultMapOptions = {
-    zoomControl: true,
-    tilt: 0,
-    gestureHandling: "auto",
-    mapTypeId: "satellite",
-  };
+  const mapRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const initMap = async () => {
+      const loader = new Loader({
+        apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
+        version: "weekly",
+      });
+
+      const { Map } = await loader.importLibrary("maps");
+      const { Marker } = (await loader.importLibrary(
+        "marker"
+      )) as google.maps.MarkerLibrary;
+
+      const position = {
+        lat: 43.642693,
+        lng: -79.3871189,
+      };
+
+      const mapOptions: google.maps.MapOptions = {
+        center: position,
+        zoom: 17,
+        mapId: "MY_NEXTJS_MAPID",
+      };
+
+      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
+
+      const marker = new Marker({
+        map: map,
+        position: position,
+      });
+    };
+
+    initMap();
+  }, []);
   return (
-    <MapProvider>
-      <div className="w-full h-full">
-        {/* Placeholder for the map. Replace this with your Google Maps iframe or component */}
-        <div className="bg-gray-200 h-96 flex items-center justify-center">
-          {/* You can replace this div with an actual map */}
-          <GoogleMap
-            mapContainerStyle={defaultMapContainerStyle}
-            center={defaultMapCenter}
-            zoom={defaultMapZoom}
-            options={defaultMapOptions}
-          >
-            <Marker position={defaultMapCenter} />
-          </GoogleMap>
-        </div>
-      </div>
-    </MapProvider>
+    <>
+      <div style={{ height: "600px" }} ref={mapRef}></div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+// src/hooks/useUsers.ts
 import axiosInstance from "@/app/api/axiosInstance";
 import { User } from "@/types";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 const fetchUsers = async (): Promise<User[]> => {
   const response = await axiosInstance.get<User[]>("/users");
@@ -14,4 +15,9 @@ const useUsers = (): UseQueryResult<User[], Error> => {
   });
 };
 
-export default useUsers;
+// Server-side function to fetch users directly
+const getUsers = async (): Promise<User[]> => {
+  return await fetchUsers();
+};
+
+export { getUsers, useUsers };

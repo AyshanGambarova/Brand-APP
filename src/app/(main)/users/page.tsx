@@ -1,100 +1,44 @@
-"use client";
-import useUsers from "@/hooks/useUsers";
-import {
-  Button,
-  Card,
-  CardContent,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import Link from "next/link";
-import Slider from "react-slick";
-import "./style.css";
+import { getUsers } from "@/hooks/useUsers"; // Adjust this import as necessary
+import { User } from "@/types"; // Import the User type if needed
+import { Box, CircularProgress } from "@mui/material";
+import Slider from "./components/slider";
 
-const UsersPage = () => {
-  const { data: users, isLoading, error } = useUsers();
+const UsersPage = async () => {
+  let users: User[] | undefined;
+  let error: Error | null = null;
+  let isLoading = true;
 
-  if (isLoading) return <CircularProgress />;
-  if (error) return <p>Error: {error.message}</p>;
+  try {
+    users = await getUsers();
+    isLoading = false;
+  } catch (err) {
+    error = err as Error;
+    isLoading = false;
+  }
 
-  // Settings adjusted for MUI Grid breakpoints
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 1536, // xl: ≥ 1536px (Extra large screens)
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 1200, // lg: ≥ 1200px (Large screens)
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 900, // md: ≥ 900px (Medium screens)
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600, // sm: ≥ 600px (Small screens)
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 0, // xs: < 600px (Extra small screens, mobile)
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-        },
-      },
-    ],
-  };
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
-      <div className="slider-container pt-5 pb-5">
-        <Slider {...settings}>
-          {users?.map((user) => (
-            <Card sx={{ height: "100%", position: "relative" }} key={user.id}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {user?.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {user?.email}
-                </Typography>
-              </CardContent>
-              <div className="flex justify-end items-center mb-3 mr-3">
-                <Button variant="outlined" color="primary">
-                  <Link href={`/users/${user?.id}`}> More</Link>
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </Slider>
-      </div>
+      <Slider users={users} />
     </>
   );
 };

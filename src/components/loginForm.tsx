@@ -7,6 +7,12 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const LoginForm = () => {
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: SnackbarSeverity;
+  }>({ open: false, message: "", severity: "success" });
+
   const {
     control,
     handleSubmit,
@@ -14,17 +20,12 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: SnackbarSeverity; // Use the custom type
-  }>({ open: false, message: "", severity: "success" });
-
   // Pass setSnackbar to the hook
   const mutation = useSubmitLoginForm(setSnackbar);
 
   const onSubmit = (data: LoginFormData) => {
-    mutation.mutate(data); // Trigger the mutation
+    mutation.mutate(data);
+    reset();
   };
 
   const handleCloseSnackbar = () => {

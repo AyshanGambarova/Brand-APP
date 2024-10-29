@@ -1,6 +1,6 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
 import axiosInstance from "@/app/api/axiosInstance";
 import { Photo } from "@/types/index";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const fetchPhotos = async ({ pageParam = 1 }): Promise<Photo[]> => {
   const response = await axiosInstance.get<Photo[]>("/photos", {
@@ -9,11 +9,13 @@ const fetchPhotos = async ({ pageParam = 1 }): Promise<Photo[]> => {
   return response.data;
 };
 
-const usePhotos = () => {
+const usePhotos = (initialData?: Photo[]) => {
   return useInfiniteQuery({
     queryKey: ["photos"],
     queryFn: fetchPhotos,
-    initialPageParam: 1,
+    initialData: initialData
+      ? { pages: [initialData], pageParams: [1] }
+      : undefined,
     getNextPageParam: (lastPage: any, pages: any) => {
       return lastPage.length ? pages.length + 1 : undefined;
     },
